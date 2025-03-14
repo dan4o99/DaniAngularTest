@@ -1,11 +1,65 @@
-noob
+<mat-toolbar class="toolbar" color="primary">
+  @for (link of links; track link) {
+  <a
+    mat-raised-button
+    color="primary"
+    (click)="activeLink = link.label"
+    [routerLinkActive]="activeLink"
+    [routerLink]="link.route"
+    [ngClass]="{ selected: activeLink == link.label }"
+    class="nav-link"
+  >
+    {{ link.label }}
+  </a>
+  }
+  <span class="spacer"></span>
 
-<router-outlet></router-outlet>
+  <button
+    *ngIf="authenticator.user?.username"
+    mat-icon-button
+    class="profile-image"
+    [matMenuTriggerFor]="userMenu"
+    [style.background-image]="'url(' + file + ')'"
+    aria-label="Profile picture"
+  ></button>
+  <mat-menu #userMenu="matMenu">
+    <button mat-menu-item (click)="profilePictureFile.click()">
+      <input
+        #profilePictureFile
+        id="avatar-input-file"
+        type="file"
+        accept="image/*"
+        style="display: none"
+        (change)="onFileChange($event)"
+      />
+      <mat-icon>upload_file</mat-icon>
+      <span>Upload profile picture</span>
+    </button>
+    <button mat-menu-item (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Logout</span>
+    </button>
+  </mat-menu>
 
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * The content above * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * * -->
-<!-- * * * * * * * * * * and can be replaced.  * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * End of Placeholder  * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+  <a
+    mat-raised-button
+    color="primary"
+    *ngIf="authenticator.authStatus !== 'authenticated'"
+    (click)="activeLink = loginLink.label"
+    [routerLinkActive]="activeLink"
+    [routerLink]="loginLink.route"
+    [ngClass]="{ selected: activeLink == loginLink.label }"
+    class="nav-link"
+  >
+    <mat-icon style="margin-right: 5px">login</mat-icon>
+    {{ loginLink.label }}
+  </a>
+</mat-toolbar>
+
+<div class="content">
+  <router-outlet (activate)="onActivate()"></router-outlet>
+</div>
+
+<div *ngIf="loadingService.loading$$ | async" class="spinner-container">
+  <mat-spinner class="spinner"></mat-spinner>
+</div>

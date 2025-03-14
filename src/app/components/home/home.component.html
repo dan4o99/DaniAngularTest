@@ -1,0 +1,47 @@
+<h1>Welcome {{ authenticator.user?.username }}</h1>
+
+<button (click)="fetchUser()">print user</button>
+
+<table>
+  <thead>
+    <tr>
+      @for (col of columns; track $index) {
+      <th>
+        {{ col }}
+      </th>
+      }
+    </tr>
+  </thead>
+  <tbody>
+    @for (row of rows; track $index) {
+    <tr>
+      @for (col of columns; track $index) {
+      <td>
+        {{ row[col] }}
+      </td>
+      }
+    </tr>
+    <ng-container
+      *ngTemplateOutlet="
+        expandableRowTemplate;
+        context: { $implicit: row?.children, rowPadding: 20 }
+      "
+    ></ng-container>
+    }
+  </tbody>
+</table>
+
+<ng-template #expandableRowTemplate let-children let-rowPadding="rowPadding">
+  @for (child of children; track $index) {
+  <ng-container>
+    <tr>
+      @for (col of columns; track $index) {
+      <td>
+        {{ child[col] }}
+      </td>
+      }
+    </tr>
+    <ng-container></ng-container>
+  </ng-container>
+  }
+</ng-template>

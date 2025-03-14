@@ -1,1 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
+@import '@aws-amplify/ui-angular/theme.css';
+
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; max-height: 100vh; min-height:unset}
+
+p {
+    margin: 0 !important;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+.cropper-view-box,
+.cropper-face {
+  border-radius: 50%;
+}
+
+.cropper-view-box {
+  outline: 0;
+  box-shadow: 0 0 0 1px #39f;
+}
+
+.crop-actions {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
